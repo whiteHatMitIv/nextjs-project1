@@ -31,7 +31,7 @@ const MyProfile = () => {
     }, [session?.user.id]) // Adding dependency on session
 
     const handleEdit = (post: Post) => {
-        router.push(`/update-prompt?id=${post._id}`)
+        router.push(`/update-prompt/${post._id.toString()}`)
     }
 
     const handleDelete = async (post: Post) => {
