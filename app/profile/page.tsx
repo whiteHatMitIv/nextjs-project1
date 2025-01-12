@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 
 const MyProfile = () => {
     const { data: session, status } = useSession()
-    const [posts, setPosts] = useState([])
+    const [posts, setPosts] = useState<PostInit[]>([])
     const [loading, setLoading] = useState(true)
     const router = useRouter()
 
@@ -29,11 +29,11 @@ const MyProfile = () => {
         }
     }, [session?.user.id]) // Adding dependency on session
 
-    const handleEdit = (post) => {
+    const handleEdit = (post: PostInit) => {
         router.push(`/update-prompt?id=${post._id}`)
     }
 
-    const handleDelete = async (post) => {
+    const handleDelete = async (post: PostInit) => {
         const hasConfirmed = confirm("Are you sure you want to delete this prompt?")
         if (hasConfirmed) {
             try {
