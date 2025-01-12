@@ -1,19 +1,31 @@
 "use client"
 
 import Form from '@/components/Form'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { Suspense, useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 const EditPrompt = () => {
     const router = useRouter()
-    const searchParams = useSearchParams()
-    const promptId = searchParams.get('id')
+    // const searchParams = useSearchParams()
+    // const promptId = searchParams.get('id')
+
+    const [promptId, setpromptId] = useState<string | null>(null)
 
     const [submitting, setsubmitting] = useState(false)
     const [post, setpost] = useState({
         prompt: '',
         tag: ''
     })
+
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        const searchParams = new URLSearchParams(window.location.search)
+        const id = searchParams.get('id')
+        if (id) {
+          setpromptId(id)
+        }
+      }
+    }, [])
 
     useEffect(() => {
         const getPromptDetails = async () => {
@@ -55,7 +67,6 @@ const EditPrompt = () => {
     }
 
     return (
-      <Suspense>
         <Form 
             type="Edit"
             post={post}
@@ -63,7 +74,6 @@ const EditPrompt = () => {
             submitting={submitting}
             handleSubmit={updatePrompt}
         />
-      </Suspense>
     )
 }
 
