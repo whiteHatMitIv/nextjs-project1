@@ -1,13 +1,14 @@
 "use client"
 
 import Profile from "@/components/Profile"
+import { Post } from "@/types/promptcardlistType"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 const MyProfile = () => {
     const { data: session, status } = useSession()
-    const [posts, setPosts] = useState<PostInit[]>([])
+    const [posts, setPosts] = useState<Post[]>([])
     const [loading, setLoading] = useState(true)
     const router = useRouter()
 
@@ -29,11 +30,11 @@ const MyProfile = () => {
         }
     }, [session?.user.id]) // Adding dependency on session
 
-    const handleEdit = (post: PostInit) => {
+    const handleEdit = (post: Post) => {
         router.push(`/update-prompt?id=${post._id}`)
     }
 
-    const handleDelete = async (post: PostInit) => {
+    const handleDelete = async (post: Post) => {
         const hasConfirmed = confirm("Are you sure you want to delete this prompt?")
         if (hasConfirmed) {
             try {
