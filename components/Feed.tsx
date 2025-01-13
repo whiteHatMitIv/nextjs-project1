@@ -23,13 +23,26 @@ const PromptCardList: React.FC<{
 
 
 const Feed = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchText, setsearchText] = useState('')
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState<Post[]>([])
+  const [filteredPosts, setfilteredPosts] = useState<Post[]>([])
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-  const handleSearchChange = (_e: any) => {
+  const handleSearchChange = (text: string) => {
+    // const text = e.target.value
+    setsearchText(text)
 
+    const filtered = posts.filter(
+      (post) =>
+        post.creator.username.toLowerCase().includes(text.toLowerCase()) ||
+        post.tag.toLowerCase().includes(text.toLowerCase()) ||
+        post.prompt.toLowerCase().includes(text.toLowerCase())
+    )
+
+    setfilteredPosts(filtered)
+  }
+
+  const handleTagClick = (tag: string) => {
+    handleSearchChange(tag)
   }
 
   useEffect(() => {
@@ -37,7 +50,10 @@ const Feed = () => {
       const response = await fetch('/api/prompt')
       const data = await response.json()
 
+      console.log(data)
+
       setPosts(data)
+      setfilteredPosts(data)
     }
 
     fetchPosts()
@@ -51,15 +67,15 @@ const Feed = () => {
             type="text" 
             placeholder='Search for a tag or a username'
             value={searchText}
-            onChange={handleSearchChange}
+            onChange={(e) => handleSearchChange(e.target.value)}
             required
             className='search_input peer'
           />
         </form>
 
         <PromptCardList
-          data={posts}
-          handleTagClick={() => {}}
+          data={filteredPosts}
+          handleTagClick={handleTagClick}
         />
       </section>
     </>
