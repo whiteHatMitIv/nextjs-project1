@@ -4,7 +4,12 @@ import '@/styles/globals.css'
 
 export const metadata = {
     title: "Promptopia",
-    description: "Discover & share AI prompts"
+    description: "Discover & share AI prompts",
+    keywords: "AI, prompts, discovery, sharing",
+    icons: {
+        icon: '/images/logo.svg'
+    },
+    viewport: "width=device-width, initial-scale=1"
 }
 
 const Rootlayout = ({ children } : {
