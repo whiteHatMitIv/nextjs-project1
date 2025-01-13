@@ -3,6 +3,7 @@
 import Profile from "@/components/Profile"
 import { Post } from "@/types/promptcardlistType"
 import { useSession } from "next-auth/react"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -52,7 +53,14 @@ const MyProfile = () => {
     }
 
     if (status === "loading" || loading) {
-        return <div>Loading...</div> // Loading state
+        return (
+            <Image
+                src="/icons/loader.svg"
+                height={60}
+                width={60}
+                alt="loader"
+            />
+        )// Loading state
     }
 
     if (!session) {
